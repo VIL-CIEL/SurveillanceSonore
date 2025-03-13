@@ -1,5 +1,4 @@
 #include <Wire.h>
-#include <arduinoFFT.h>
 #include <SSD1306.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
@@ -9,19 +8,25 @@
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 SSD1306 display(0x3c, 5, 4);
 
-void setup() {
-  Serial.begin(115200);
-  Serial.println("Setup Commence");
+#define TIME 1000
+#define X 10
+#define Y 10
+int LOOP = 0;
+String tab[] = {"Bonjour","Et Bienvenue","Au Lycée","Edouard Branly"};
 
+void setup() {
   display.init();
   display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_10);
-  display.drawString(60,60,"Bonjour");
-  display.display();
-
-  
-  Serial.println("Setup Fini");
+  display.setFont(ArialMT_Plain_16);
 }
 
 void loop() {
+  if(LOOP > tab->length())
+    LOOP = 0;
+
+  display.clear();
+  display.drawString(X,Y,tab[LOOP]);
+  display.display();
+  delay(TIME);
+  LOOP += 1;
 }
